@@ -1,0 +1,8 @@
+uvicorn
+fastapi
+pydantic
+python-Levenshtein
+fuzzywuzzy
+numpy==1.26.4
+networkx
+scipy

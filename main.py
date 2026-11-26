@@ -1,0 +1,40 @@
+from fastapi import FastAPI #used to create the API
+from fastapi.middleware.cors import CORSMiddleware #used to allow request from other websites
+from data import Jobs #data format
+from data import Courses
+from data import Student_Profile
+from data import ReportRequest
+from model import IntegratedGCNAdvisor #class to generate report
+
+#creates the FASTAPI app instance
+app = FastAPI()
+
+#to be able to run the api locally you need to open another terminal to activate a third server (https://localhost:8000) 
+# by typing: uvicorn main:app --reload
+
+# List of websites that are allowed to access this API.
+origins = [
+    "http://localhost:5173",
+    "http://samplewebsite.com"]
+
+app.add_middleware(
+    CORSMiddleware,
+    # Allow requests from the websites listed above.
+    allow_origins=origins,
+    # Allow all HTTP methods (GET, POST, PUT, DELETE, etc.).
+    allow_methods=["*"],
+    # Allow all request headers.
+    allow_headers=["*"],
+)
+
+#when a POST request is made to the /report endpoint, this function will be called. 
+#has to include a list of "jobs" in the request body and returns a report
+@app.post("/report")
+def get_report(reportrequest: ReportRequest):
+    advisor = IntegratedGCNAdvisor(reportrequest.jobs,reportrequest.courses,reportrequest.student_profile)
+    report = advisor.run()
+    return {"report": report}
+
+@app.get("/test")
+def test():
+    return {"message": "Hello World"}

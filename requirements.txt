@@ -1,8 +1,11 @@
+# --- API (used by the public version) ---
 uvicorn
 fastapi
 pydantic
-python-Levenshtein
-fuzzywuzzy
-numpy==1.26.4
-networkx
-scipy
+
+# --- Model dependencies (not used by the placeholder model.py) ---
+#python-Levenshtein
+#fuzzywuzzy
+#numpy==1.26.4
+#networkx
+#scipy
